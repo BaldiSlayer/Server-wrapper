@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Вход</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link href="/static/css/index.css" rel="stylesheet">
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    </head>
+
+    <body>
+
+       <main>
+    <h1 class="no-select">Сервер</h1>
+
+    <div class="form-row" style="margin-bottom: 10%">
+        <div class="col">
+            <label for="username"></label>
+            <input class="form-control" id="username" name="username" placeholder="Логин" required type="username">
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-bottom: 10%">
+        <div class="col">
+            <input class="form-control" id="password" name="password" placeholder="Пароль" required type="password">
+        </div>
+    </div>
+
+    <button id="authBtn" class="btn btn-primary btn-block" type="submit" onclick="auth()"> Вход </button>
+</main>
+
+
+    <footer class="mt-auto py-3 footer">
+        <span class="text-muted">Made by <a href="https://github.com/BaldiSlayer">BaldiSlayer</a> with</span> <span class="heart">&#10084;&#65039;</span>
+    </footer>
+
+    </body>
+
+    <script>
+    function auth() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const formData = {
+            "username": username,
+            "password": password
+        };
+
+        fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.redirected) {
+                    // выполнить редирект на новый URL
+                    window.location.replace(response.url);
+                }
+            })
+            .catch(error => {
+                // обработать ошибку
+                console.error(error);
+            });
+
+    }
+</script>
+
+</html>

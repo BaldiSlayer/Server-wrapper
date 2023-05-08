@@ -1,0 +1,4 @@
+beautifulsoup4==4.10.0
+Flask==2.2.1
+MarkupSafe==2.1.1
+Requests==2.30.0
