@@ -19,7 +19,7 @@ def login():
     global server
 
     # TODO PASTE PARAMETRES
-    server = ServerConnection()
+    server = ServerConnection(username, password)
 
     if server.status >= 300:
         return jsonify({'message': 'error'})
