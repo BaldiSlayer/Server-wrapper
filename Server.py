@@ -19,7 +19,7 @@ STRING_TO_VERDICT = {
 }
 
 class ServerConnection:
-    def __init__(self, login='22u801', password='vtsz9lko'):
+    def __init__(self, login='', password=''):
         self.login = login
         self.password = password
 
