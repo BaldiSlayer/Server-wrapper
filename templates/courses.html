@@ -1,66 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="task.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<!-- Bootstrap JS -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+{% block head %}
+    {{ super() }}
 
     <style>
         body {
             padding-bottom: 50px;
         }
     </style>
+{% endblock %}
 
-</head>
+{% block title %}Настройки{% endblock %}
 
-<body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<!-- Service Name -->
-		<a class="navbar-brand" href="/">Сервер</a>
-		
-		<!-- Username Dropdown Item -->
-		<ul class="navbar-nav ml-auto">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Alex
-				</a>
-				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="/settings">Settings</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="/logout">Logout</a>
-				</div>
-			</li>
-		</ul>
-	</nav>
-
-
+{% block content %}
     <div class="container mt-5">
         <h1>Предметы</h1>
         <div id="task-list" class="mt-4">
-            {% for elem in data %}
-
+            {% for elem in subjects %}
                 <div class="card task-card mt-5" onclick="location.href='/course/{{ elem.link }}';">
                     <div class="card-body">
                         <h5 class="card-title">{{ elem.text }}</h5>
                         <p class="card-text">Баллы</p>
                     </div>
                 </div>
-
             {% endfor %}
-
         </div>
     </div>
+{% endblock %}
 
-
-</body>
-
-</html>

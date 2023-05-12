@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+
+    <style>
+        body {
+            padding-bottom: 50px;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/settings.css">
+{% endblock %}
+
+{% block title %}Настройки{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+    <h1>User Settings</h1>
+
+    <form>
+      <div class="form-group">
+        <label for="language">Choose favorite programming language:</label>
+        <select class="form-control" id="language">
+          <option>Go</option>
+          <option>Scheme</option>
+          <option>C++</option>
+          <option>C</option>
+          <option>Markdown</option>
+          <option>Java</option>
+        </select>
+      </div>
+
+      <!-- Rounded switch -->
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider round"></span>
+        </label>
+
+
+
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+
+  <!-- Подключаем скрипт для переключения темы -->
+  <script>
+    $(document).ready(function(){
+      $("#themeToggle").change(function(){
+        $("body").toggleClass("bg-dark text-light");
+        $(".form-control").toggleClass("bg-dark text-light");
+        $(".custom-control-label").toggleClass("text-light");
+        $(".navbar").toggleClass("bg-dark text-light");
+      });
+    });
+  </script>
+{% endblock %}
+

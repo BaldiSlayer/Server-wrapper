@@ -1,5 +1,11 @@
-import requests
+import requests, json
 from bs4 import BeautifulSoup
+
+
+def get_link_to_file(s):
+    return s.replace('/attach/', 'https://hw.iu9.bmstu.ru/attach/').replace('/static/',
+                                                                            'https://hw.iu9.bmstu.ru/static/')
+
 
 LANG_TO_ID = {
     'C': 1,
@@ -18,8 +24,12 @@ STRING_TO_VERDICT = {
     'Ожидает проверки': 'waiting',
 }
 
+
 class ServerConnection:
-    def __init__(self, login, password):
+    password: str
+
+    def __init__(self, login='22u801', password='vtsz9lko'):
+        self.username = None
         self.login = login
         self.password = password
 
@@ -31,7 +41,36 @@ class ServerConnection:
                                   'password': self.password,
                               })
 
-        self.status = r.status_code
+    def get_name(self):
+        response = self.session.get('https://hw.iu9.bmstu.ru/student?course_id=-200')
+        html = response.content
+
+        soup = BeautifulSoup(html, 'html.parser')
+
+        elements = soup.find_all('div', class_='paper content')
+        self.username = elements[0].text.strip().replace('Студент: ', '')
+
+    @property
+    def is_authorized(self) -> bool:
+        r = self.session.get('https://hw.iu9.bmstu.ru/student')
+        if r.url == 'https://hw.iu9.bmstu.ru/student':
+            self.get_name()
+
+            try:
+                with open("info.json", "r") as f:
+                    info = f.read()
+                    settings = json.loads(info)
+            except:
+                settings = dict()
+
+            settings['username'] = self.login
+            settings['password'] = self.password
+
+            with open("info.json", "w") as my_file:
+                my_file.write(json.dumps(settings))
+
+            return True
+        return False
 
     def print_text(self):
         print(self.session.get('https://hw.iu9.bmstu.ru/student').text)
@@ -122,28 +161,57 @@ class ServerConnection:
             summary_text = tri.summary.text.strip().split()
             submissions.append(
                 {
-                    'date': summary_text[1] + " " + summary_text[2],
+                    'date': summary_text[1] + " " + summary_text[2][:-1],
                     'verdict': STRING_TO_VERDICT[' '.join(summary_text[3:])],
                     'id': len(submissions),
                     'lang': tri.find('div').text.split('\n')[1].replace('Язык реализации: ', ''),
                 }
             )
 
-        return task, languages, submissions
+        return get_link_to_file(str(task)), languages, submissions
 
     def sumbit_solution(self, task_id, code, language):
         r = self.session.post(f' https://hw.iu9.bmstu.ru/submission?task_id={task_id}',
-                          data={
-                              'lang': LANG_TO_ID[language],
-                              'submission': code,
-                          })
+                              data={
+                                  'lang': LANG_TO_ID[language],
+                                  'submission': code,
+                              })
         return r.status_code
 
-    def get_code(self, task_id, code_id):
+    def get_task_report(self, task_id, code_id):
         response = self.session.get(f'https://hw.iu9.bmstu.ru/submission?task_id={task_id}')
         html = response.content
 
-        # создаем объект BeautifulSoup
         soup = BeautifulSoup(html, 'html.parser')
 
-        return str(soup.find_all('details', {'class': 'test-result_paragraph'})[code_id*2].find('div').find('div'))
+        task_name = soup.find('h1').text
+
+        details = soup.find_all('details', {'class': 'test-result_details'})[code_id]
+
+        code = details.find('div').find('div', {'class', 'test-result_code-block'})
+
+        verdict = STRING_TO_VERDICT[' '.join(details.summary.text.strip().split()[3:])]
+
+        antiplagiate = 'noinf'
+        if verdict == 'passed':
+            antiplagiate = details.find('div').find_all('p')[1].text.replace('Антиплагиат: ', '')
+
+        comment = 'noinf'
+        if verdict == 'accepted' or verdict == 'banned':
+            antiplagiate = details.find('div').find_all('p')[1].text.replace('Антиплагиат: ', '')
+            comment = details.find('div').find_all('p')[2].text
+
+        lang = details.find('div').p.text.replace('Язык реализации: ', '')
+
+        report = str(details.find('div').find_all('details', {'class': 'test-result_paragraph'})[1]
+                     .find('div')).replace('/attach/', 'https://hw.iu9.bmstu.ru/attach/')
+        if '<div class="form_code-submit-wrapper">' in report:
+            i = report.index('<div class="form_code-submit-wrapper">')
+            s = ''
+            while not '</div>' in s:
+                s += report[i]
+                i += 1
+
+            report = report.replace(s, '')
+
+        return code, task_name, verdict, lang, report, antiplagiate, comment

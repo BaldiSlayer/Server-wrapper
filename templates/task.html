@@ -1,60 +1,25 @@
+{% extends "base.html" %}
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Задача</title>
+{% block title %}Контест{% endblock %}
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- Bootstrap JS -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% block head %}
+    {{ super() }}
 
-        <!-- Highlighting -->        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 
-        <script type="text/javascript"
-            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        </script>
+    <script type="text/javascript" src="../static/js/task.js"> </script>
 
+{% endblock %}
 
-        <style>
-            .form-group {
-                margin-bottom: 4rem;
-            }
-        </style>
-
-    </head>
-    <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <!-- Service Name -->
-        <a class="navbar-brand" href="/">Сервер</a>
-
-        <!-- Username Dropdown Item -->
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Alex
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/settings">Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                </div>
-            </li>
-        </ul>
-    </nav>
-
-
+{% block content %}
     <div class="container mt-5 bg-light">
         {{ statement }}
     </div>
 
     <div class="form-group container mt-5">
+            {% if notsolved %}
             <div class="mt-4">
                 <div class="dropdown mt-4" style="margin-bottom: 2rem;">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,11 +33,20 @@
                         {% endfor %}
                     </ul>
                 </div>
+                <div class="alert alert-danger mt-3 d-none" id="languageAlert" role="alert">
+                    Выбери язык
+                </div>
 
                 <textarea class="form-control" id="Code" rows="8" placeholder="Enter code" style="margin-bottom: 1rem;"></textarea>
+
+                <div class="alert alert-danger mt-3 d-none" id="codeAlert" role="alert">
+                    Напиши код
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary mt-2" onclick="sendRequest()">Submit</button>
+
+            {% endif %}
 
             <div class="container mt-4">
                 <h1>Посылки</h1>
@@ -82,7 +56,7 @@
                       <th>Время отправки</th>
                       <th>Язык программирования</th>
                       <th>Вердикт</th>
-                      <th>Код</th>
+                      <th>Отчет</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -120,38 +94,4 @@
               </div>
     </div>
 
-    <!-- Include Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Include Bootstrap 5 JS (required for dropdown functionality) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Function to update selected item text
-        function selectItem(item) {
-            document.getElementById('dropdownMenuButton').innerText = item;
-        }
-
-        function sendRequest() {
-            const apiUrl = window.location.href + '/submit';
-
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "code": document.getElementById("Code").value,
-                    "language": document.getElementById('dropdownMenuButton').innerText,
-                })
-            })
-                .then(response => {
-                    location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    </script>
-
-    </body>
-    </html>
+{% endblock %}

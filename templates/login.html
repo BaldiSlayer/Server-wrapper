@@ -14,6 +14,7 @@
 
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script type="text/javascript" src="../static/js/login.js"> </script>
     </head>
 
     <body>
@@ -44,35 +45,5 @@
 
     </body>
 
-    <script>
-    function auth() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        const formData = {
-            "username": username,
-            "password": password
-        };
-
-        fetch('/login', {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.redirected) {
-                    // выполнить редирект на новый URL
-                    window.location.replace(response.url);
-                }
-            })
-            .catch(error => {
-                // обработать ошибку
-                console.error(error);
-            });
-
-    }
-</script>
 
 </html>

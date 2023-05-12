@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+
+    <style>
+        body {
+            padding-bottom: 50px;
+        }
+    </style>
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/scheme.min.js"></script>
+{% endblock %}
+
+{% block title %}Отчет{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+      <h1>{{ task_name }}</h1>
+      <h2>Язык программирования: {{ lang }}</h2>
+      <h3>Вердикт: {{ verdict }}</h3>
+
+        {{ code }}
+
+        {% if cheating != "noinf" %}
+          <div class="plagiate">
+            <h3>Антиплагиат:</h3>
+            {{ cheating }}
+          </div>
+        {% endif %}
+
+        {% if comment != "noinf" %}
+          <div class="comment">
+            <h3>Комментарий преподавателя:</h3>
+            {{ comment }}
+          </div>
+        {% endif %}
+
+      <div class="report">
+        <h3>Отчет</h3>
+
+          {{ report }}
+
+      </div>
+    </div>
+
+    <script>hljs.highlightAll();</script>
+{% endblock %}
