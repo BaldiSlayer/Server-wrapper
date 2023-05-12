@@ -28,7 +28,7 @@ STRING_TO_VERDICT = {
 class ServerConnection:
     password: str
 
-    def __init__(self, login='22u801', password='vtsz9lko'):
+    def __init__(self, login, password):
         self.username = None
         self.login = login
         self.password = password
