@@ -22,3 +22,5 @@ pip3 install -r requirements.txt
 python3 ./app.py
 ```
 
+## Примеры работы
+![Описание изображения](https://prnt.sc/S55esScCuUGO)
