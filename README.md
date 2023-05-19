@@ -5,8 +5,9 @@
 Бэкенд написан на таком фреймворке, как `Flask` (+ шаблонизатор `Jinja2`). На фронтенде используется `bootstrap` для облегчения верстки.
 ## Как запустить?
 Клонируем репозиторий
-`git clone https://github.com/BaldiSlayer/Server-wrapper`
+
+```git clone https://github.com/BaldiSlayer/Server-wrapper```
 Установка нужных зависимостей
-`pip3 install -r requirements.txt`
+```pip3 install -r requirements.txt```
 Запуск
-`python3 ./app.py`
+```python3 ./app.py```
