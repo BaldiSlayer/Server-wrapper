@@ -23,4 +23,4 @@ python3 ./app.py
 ```
 
 ## Примеры работы
-![Описание изображения](https://prnt.sc/S55esScCuUGO)
+![Описание изображения](https://img001.prntscr.com/file/img001/hrMgcbsKQCGxU2GqWA-i9A.png)
