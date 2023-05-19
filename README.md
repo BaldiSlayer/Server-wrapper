@@ -15,3 +15,5 @@
 Запуск
 
 ```python3 ./app.py```
+
+[![Копировать](https://example.com/copy-button.png)](javascript:void(0))
