@@ -6,11 +6,15 @@
 ## Как запустить?
 Клонируем репозиторий
 
-```git clone https://github.com/BaldiSlayer/Server-wrapper```
+```
+git clone https://github.com/BaldiSlayer/Server-wrapper
+```
 
 Установка нужных зависимостей
 
-```pip3 install -r requirements.txt```
+```
+pip3 install -r requirements.txt
+```
 
 Запуск
 
