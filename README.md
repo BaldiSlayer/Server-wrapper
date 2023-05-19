@@ -24,3 +24,5 @@ python3 ./app.py
 
 ## Примеры работы
 ![Описание изображения](https://img001.prntscr.com/file/img001/hrMgcbsKQCGxU2GqWA-i9A.png)
+
+![Описание изображения](https://img001.prntscr.com/file/img001/gGGhM29rRg-JnOE9ElgtYw.png)
